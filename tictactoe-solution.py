@@ -10,8 +10,12 @@ def main():
         display_board(board)
         make_move(player, board)
         player = next_player(player)
-    display_board(board)
-    print("Good game. Thanks for playing!") 
+    if has_winner(board) == True:
+        display_board(board)
+        print("We have a winner! Thanks for playing!")
+    elif is_a_draw(board) == True:
+        display_board(board)
+        print("It's a draw! Thanks for playing!")
 
 def create_board():
     board = []
@@ -46,6 +50,10 @@ def has_winner(board):
 
 def make_move(player, board):
     square = int(input(f"{player}'s turn to choose a square (1-9): "))
+    while square > 9 or square < 1:
+        square = int(input("Out of range. Please enter the currect spot number: "))
+    while board[square - 1] == "x" or board[square - 1] == "o":
+        square = int(input("Spot taken. Please choose another one: "))
     board[square - 1] = player
 
 def next_player(current):
@@ -53,6 +61,6 @@ def next_player(current):
         return "x"
     elif current == "x":
         return "o"
-
+    
 if __name__ == "__main__":
     main()
